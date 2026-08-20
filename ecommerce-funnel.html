@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study — Ecommerce funnel drop-off | Agustina Gorni</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="nav-brand">AGUSTINA<span>·</span>GORNI</div>
+    <nav class="nav-links">
+      <a class="back" href="../index.html#cases">← All case studies</a>
+    </nav>
+  </div>
+</header>
+
+<section class="case-hero">
+  <div class="wrap">
+    <div class="tags"><span>Tracking plan</span><span>Adobe Analytics</span><span>Python</span><span>BigQuery</span></div>
+    <h1>Where ecommerce shoppers actually drop off</h1>
+    <p class="lede">Checkout usually gets blamed for lost sales. On this dataset, the real leak is one step earlier — between viewing a product and adding it to the cart. Here's the process from raw event data to a tracking plan built to diagnose it.</p>
+  </div>
+</section>
+
+<section style="padding-top:0;border-top:none;">
+  <div class="wrap">
+    <p class="eyebrow"><span class="dot"></span>Dataset &amp; method</p>
+    <p style="color:var(--text-secondary); max-width:720px;">Built entirely on the public <strong style="color:var(--text-primary)">Google Merchandise Store</strong> GA4 sample dataset (BigQuery), covering Nov 2020 – Jan 2021. Queried in BigQuery, analyzed in Python, and translated into an Adobe Analytics / Customer Journey Analytics tracking plan. No client or employer data used.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow"><span class="dot"></span>The funnel</p>
+    <h2 style="font-size:26px; margin-bottom:10px;">19.8% of viewers add to cart — the rest of the funnel converts fine</h2>
+    <p style="color:var(--text-secondary); max-width:680px;">Once a user adds a product to their cart, the funnel holds up reasonably well: 74.5% continue to checkout, and 73.2% of those who add payment info complete the purchase. The bottleneck sits earlier, on the product page itself.</p>
+
+    <div class="figure">
+      <img src="../assets/funnel-chart.png" alt="Horizontal bar chart of the purchase funnel: view_item 72,533 users, add_to_cart 14,393, begin_checkout 10,716, add_payment_info 6,553, purchase 4,794. An 80.2% drop is called out between view_item and add_to_cart.">
+      <div class="cap">Funnel by unique users · Nov 2020 – Jan 2021 · GA4 public dataset, queried via BigQuery</div>
+    </div>
+
+    <div class="callout">
+      <strong>Why this matters for the tracking plan:</strong> if the objective were framed around checkout (the common assumption), the resulting instrumentation would miss the actual problem entirely. The data reframes the objective before a single eVar gets defined.
+    </div>
+
+    <table class="dt">
+      <tr><th>Cut</th><th>Finding</th></tr>
+      <tr><td>By channel</td><td>Referral traffic (shop.googlemerchandisestore.com) converts best at 9.2%; CPC converts worst at 4.8% — worth questioning whether paid spend is earning its keep.</td></tr>
+      <tr><td>By device</td><td>Desktop 7.0%, mobile 7.5%, tablet 6.7% — the common "mobile converts worse" assumption doesn't hold up on this data.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow"><span class="dot"></span>Business objective</p>
+    <h2 style="font-size:26px;">Reduce the view_item → add_to_cart drop-off</h2>
+    <p style="color:var(--text-secondary); max-width:700px; margin-top:14px;">Identify where in the product page experience purchase intent is lost, and whether that varies by traffic source, device, or product/category.</p>
+    <ul class="bullets" style="max-width:700px;">
+      <li>At what point in the PDP visit is the user lost — before engaging with the CTA, after engaging but not completing, or due to stock/price?</li>
+      <li>Does drop-off behavior vary by acquisition channel or device?</li>
+      <li>Are there products or categories with consistently lower add-to-cart rates?</li>
+      <li>Does the path to the PDP — search, category browse, or promotion — influence conversion to cart?</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow"><span class="dot"></span>Tracking plan</p>
+    <h2 style="font-size:26px;">From GA4 events to Adobe Analytics success events</h2>
+    <p style="color:var(--text-secondary); max-width:700px; margin-top:14px;">The full spec — including eVars, props, implementation rules, QA plan, and team coordination — is in the downloadable document. The additions below are the part that matters most for a lead role: instrumentation that GA4 doesn't capture by default, proposed specifically to diagnose this drop-off rather than just confirm it.</p>
+    <ul class="bullets" style="max-width:700px;">
+      <li><strong style="color:var(--text-primary)">CTA visible</strong> — confirms the add-to-cart button actually entered the viewport, separating "never saw it" from "saw it and passed."</li>
+      <li><strong style="color:var(--text-primary)">Stock/availability shown</strong> — correlates drop-off with low-availability products.</li>
+      <li><strong style="color:var(--text-primary)">Failed add-to-cart attempt</strong> — CTA clicks that don't result in a successful cart update.</li>
+      <li><strong style="color:var(--text-primary)">Scroll depth / active time on PDP</strong> — separates immediate exits from exits after evaluation.</li>
+      <li><strong style="color:var(--text-primary)">Price tier at time of view</strong> — allows cross-referencing conversion by price range.</li>
+    </ul>
+
+    <div class="dl-card">
+      <div>
+        <div class="name">Tracking_Plan_Ecommerce_Agustina_Gorni.docx</div>
+        <div class="meta">Full spec — events, eVars/props, implementation rules, QA plan, team coordination</div>
+      </div>
+      <a class="btn primary" href="../downloads/Tracking_Plan_Ecommerce_Agustina_Gorni_EN.docx" download>Download ↓</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow"><span class="dot"></span>Dashboard</p>
+    <h2 style="font-size:26px;">Power BI view — in progress</h2>
+    <p style="color:var(--text-secondary); max-width:700px; margin-top:14px;">A Power BI dashboard built on this same dataset — funnel, channel, and device views in one place — is next. It'll be embedded here once it's published.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="contact-row">
+      <div><h2 style="font-size:22px;">More case studies</h2></div>
+      <div class="links">
+        <a href="../index.html#cases">← Back to all case studies</a>
+        <a href="mailto:agustinagorni@gmail.com">agustinagorni@gmail.com</a>
+      </div>
+    </div>
+    <p class="foot-note">© 2026 Agustina Gorni. Case study built on public datasets for portfolio purposes only.</p>
+  </div>
+</footer>
+
+</body>
+</html>
